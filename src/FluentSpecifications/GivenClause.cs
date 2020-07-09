@@ -11,25 +11,6 @@
             this.serviceProvider = serviceProvider;
         }
 
-        public GivenClause()
-        {
-
-        }
-
-        public IGivenClause And(string label, Action givenAction)
-        {
-            Console.WriteLine($"  AND {label}");
-
-            if (givenAction == null)
-            {
-                throw new ArgumentNullException(nameof(givenAction), "Cannot invoke a null action");
-            }
-
-            givenAction();
-
-            return new GivenClause();
-        }
-
         public IGivenClause And(string label, Action<IServiceProvider> givenAction)
         {
             Console.WriteLine($"  AND {label}");
@@ -44,7 +25,7 @@
             return new GivenClause(serviceProvider);
         }
 
-        public IThenClause Then(string label, Action thenAction)
+        public IThenClause Then(string label, Action<IServiceProvider> thenAction)
         {
             Console.WriteLine($" THEN {label}");
 
@@ -53,12 +34,12 @@
                 throw new ArgumentNullException(nameof(thenAction), "Cannot invoke a null action");
             }
 
-            thenAction();
+            thenAction(serviceProvider);
 
-            return new ThenClause();
+            return new ThenClause(serviceProvider);
         }
 
-        public IWhenClause When(string label, Action whenAction)
+        public IWhenClause When(string label, Action<IServiceProvider> whenAction)
         {
             Console.WriteLine($" WHEN {label}");
 
@@ -67,9 +48,9 @@
                 throw new ArgumentNullException(nameof(whenAction), "Cannot invoke a null action");
             }
 
-            whenAction();
+            whenAction(serviceProvider);
 
-            return new WhenClause();
+            return new WhenClause(serviceProvider);
         }
     }
 }

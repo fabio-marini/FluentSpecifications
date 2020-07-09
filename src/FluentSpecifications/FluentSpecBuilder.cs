@@ -4,7 +4,14 @@
 
     public class FluentSpecBuilder
     {
-        public IGivenClause Given(string label, Action givenAction)
+        private readonly IServiceProvider serviceProvider;
+
+        public FluentSpecBuilder(IServiceProvider serviceProvider)
+        {
+            this.serviceProvider = serviceProvider;
+        }
+
+        public IGivenClause Given(string label, Action<IServiceProvider> givenAction)
         {
             Console.WriteLine($"GIVEN {label}");
 
@@ -13,12 +20,12 @@
                 throw new ArgumentNullException(nameof(givenAction), "Cannot invoke a null action");
             }
 
-            givenAction();
+            givenAction(serviceProvider);
 
-            return new GivenClause();
+            return new GivenClause(serviceProvider);
         }
 
-        public IWhenClause When(string label, Action whenAction)
+        public IWhenClause When(string label, Action<IServiceProvider> whenAction)
         {
             Console.WriteLine($" WHEN {label}");
 
@@ -27,9 +34,9 @@
                 throw new ArgumentNullException(nameof(whenAction), "Cannot invoke a null action");
             }
 
-            whenAction();
+            whenAction(serviceProvider);
 
-            return new WhenClause();
+            return new WhenClause(serviceProvider);
         }
     }
 }

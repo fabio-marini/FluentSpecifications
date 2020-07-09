@@ -4,7 +4,14 @@
 
     public class ThenClause : IThenClause
     {
-        public IThenClause And(string label, Action thenAction)
+        private readonly IServiceProvider serviceProvider;
+
+        public ThenClause(IServiceProvider serviceProvider)
+        {
+            this.serviceProvider = serviceProvider;
+        }
+
+        public IThenClause And(string label, Action<IServiceProvider> thenAction)
         {
             Console.WriteLine($"  AND {label}");
 
@@ -13,9 +20,9 @@
                 throw new ArgumentNullException(nameof(thenAction), "Cannot invoke a null action");
             }
 
-            thenAction();
+            thenAction(serviceProvider);
 
-            return new ThenClause();
+            return new ThenClause(serviceProvider);
         }
     }
 }
