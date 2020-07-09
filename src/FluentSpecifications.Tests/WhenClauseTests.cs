@@ -1,20 +1,29 @@
-﻿using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-
-namespace FluentSpecifications.Tests
+﻿namespace FluentSpecifications.Tests
 {
+    using FluentAssertions;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System;
+
     [TestClass]
     public class WhenClauseTests
     {
-        WhenClause when = new WhenClause();
+        private readonly IWhenClause whenClause;
+        private readonly IServiceProvider serviceProvider;
+
+        public WhenClauseTests()
+        {
+            serviceProvider = new ServiceCollection().AddSingleton<string>("Hello world!").BuildServiceProvider();
+
+            whenClause = new WhenClause(serviceProvider);
+        }
 
         [TestMethod]
         public void TestWhenActionIsNull()
         {
             try
             {
-                when.And("my label", null);
+                whenClause.And("my label", null);
 
                 true.Should().BeFalse();
             }
@@ -26,13 +35,23 @@ namespace FluentSpecifications.Tests
         }
 
         [TestMethod]
-        public void TestWhenActionNotNull()
+        public void TestWhenActionNoServiceProvider()
         {
             var x = 0;
 
-            when.And("my label", () => x = 1);
+            whenClause.And("my label", _ => x = 1);
 
             x.Should().Be(1);
+        }
+
+        [TestMethod]
+        public void TestWhenActionAndServiceProvider()
+        {
+            var x = "0";
+
+            whenClause.And("my label", svc => x = svc.GetService<string>());
+
+            x.Should().Be("Hello world!");
         }
 
         [TestMethod]
@@ -40,7 +59,7 @@ namespace FluentSpecifications.Tests
         {
             try
             {
-                when.Then("my label", null);
+                whenClause.Then("my label", null);
 
                 true.Should().BeFalse();
             }
@@ -52,13 +71,23 @@ namespace FluentSpecifications.Tests
         }
 
         [TestMethod]
-        public void TestThenActionNotNull()
+        public void TestThenActionNoServiceProvider()
         {
             var x = 0;
 
-            when.Then("my label", () => x = 1);
+            whenClause.Then("my label", _ => x = 1);
 
             x.Should().Be(1);
+        }
+
+        [TestMethod]
+        public void TestThenActionAndServiceProvider()
+        {
+            var x = "0";
+
+            whenClause.Then("my label", svc => x = svc.GetService<string>());
+
+            x.Should().Be("Hello world!");
         }
     }
 }

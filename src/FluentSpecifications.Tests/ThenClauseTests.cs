@@ -1,20 +1,29 @@
-﻿using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-
-namespace FluentSpecifications.Tests
+﻿namespace FluentSpecifications.Tests
 {
+    using FluentAssertions;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System;
+
     [TestClass]
     public class ThenClauseTests
     {
-        ThenClause then = new ThenClause();
+        private readonly IThenClause thenClause;
+        private readonly IServiceProvider serviceProvider;
+
+        public ThenClauseTests()
+        {
+            serviceProvider = new ServiceCollection().AddSingleton<string>("Hello world!").BuildServiceProvider();
+
+            thenClause = new ThenClause(serviceProvider);
+        }
 
         [TestMethod]
         public void TestThenActionIsNull()
         {
             try
             {
-                then.And("my label", null);
+                thenClause.And("my label", null);
 
                 true.Should().BeFalse();
             }
@@ -26,13 +35,23 @@ namespace FluentSpecifications.Tests
         }
 
         [TestMethod]
-        public void TestThenActionNotNull()
+        public void TestThenActionNoServiceProvider()
         {
             var x = 0;
 
-            then.And("my label", () => x = 1);
+            thenClause.And("my label", _ => x = 1);
 
             x.Should().Be(1);
+        }
+
+        [TestMethod]
+        public void TestThenActionAndServiceProvider()
+        {
+            var x = "0";
+
+            thenClause.And("my label", svc => x = svc.GetService<string>());
+
+            x.Should().Be("Hello world!");
         }
     }
 }
