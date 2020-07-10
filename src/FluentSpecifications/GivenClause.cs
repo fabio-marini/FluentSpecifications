@@ -1,17 +1,18 @@
 ﻿namespace FluentSpecifications
 {
+    using Microsoft.Extensions.DependencyInjection;
     using System;
 
     public class GivenClause : IGivenClause
     {
-        private readonly IServiceProvider serviceProvider;
+        private readonly IServiceCollection serviceCollection;
 
-        public GivenClause(IServiceProvider serviceProvider)
+        public GivenClause(IServiceCollection serviceCollection)
         {
-            this.serviceProvider = serviceProvider;
+            this.serviceCollection = serviceCollection ?? new ServiceCollection();
         }
 
-        public IGivenClause And(string label, Action<IServiceProvider> givenAction)
+        public IGivenClause And(string label, Action<IServiceCollection> givenAction)
         {
             Console.WriteLine($"  AND {label}");
 
@@ -20,9 +21,9 @@
                 throw new ArgumentNullException(nameof(givenAction), "Cannot invoke a null action");
             }
 
-            givenAction(serviceProvider);
+            givenAction(serviceCollection);
 
-            return new GivenClause(serviceProvider);
+            return new GivenClause(serviceCollection);
         }
 
         public IThenClause Then(string label, Action<IServiceProvider> thenAction)
@@ -33,6 +34,8 @@
             {
                 throw new ArgumentNullException(nameof(thenAction), "Cannot invoke a null action");
             }
+
+            var serviceProvider = serviceCollection.BuildServiceProvider();
 
             thenAction(serviceProvider);
 
@@ -47,6 +50,8 @@
             {
                 throw new ArgumentNullException(nameof(whenAction), "Cannot invoke a null action");
             }
+
+            var serviceProvider = serviceCollection.BuildServiceProvider();
 
             whenAction(serviceProvider);
 

@@ -9,13 +9,36 @@
     public class FluentSpecBuilderTests
     {
         private readonly FluentSpecBuilder fluentSpecBuilder;
-        private readonly IServiceProvider serviceProvider;
+        private readonly IServiceCollection serviceCollection;
 
         public FluentSpecBuilderTests()
         {
-            serviceProvider = new ServiceCollection().AddSingleton<string>("Hello world!").BuildServiceProvider();
+            serviceCollection = new ServiceCollection().AddSingleton<string>("Hello world!");
 
-            fluentSpecBuilder = new FluentSpecBuilder(serviceProvider);
+            fluentSpecBuilder = new FluentSpecBuilder(serviceCollection);
+        }
+
+        [TestMethod]
+        public void TestServiceCollectionIsNull()
+        {
+            var simpleSpecBuilder = new FluentSpecBuilder(default);
+
+            var x = 0;
+
+            simpleSpecBuilder.Given("my label", _ => x = 1).When("another", _ => x = 2);
+
+            x.Should().Be(2);
+
+            simpleSpecBuilder.Given("my label", _ => x = 1).When("another", svc => x = 3);
+
+            x.Should().Be(3);
+
+            simpleSpecBuilder.Given("my label", _ => x = 1).When("another", svc =>
+            {
+                var s = svc.GetService<string>();
+
+                s.Should().BeNull();
+            });
         }
 
         [TestMethod]
@@ -35,7 +58,7 @@
         }
 
         [TestMethod]
-        public void TestGivenActionNoServiceProvider()
+        public void TestGivenActionNoServiceCollection()
         {
             var x = 0;
 
@@ -45,13 +68,21 @@
         }
 
         [TestMethod]
-        public void TestGivenActionAndServiceProvider()
+        public void TestGivenActionAndServiceCollection()
         {
-            var x = "0";
+            var x = 0;
 
-            fluentSpecBuilder.Given("my label", svc => x = svc.GetService<string>());
+            fluentSpecBuilder.Given("my label", svc =>
+            {
+                svc.AddSingleton<string>("Another");
+            });
 
-            x.Should().Be("Hello world!");
+            x.Should().Be(0);
+
+            var svc = serviceCollection.BuildServiceProvider();
+
+            var strings = svc.GetServices<string>();
+            strings.Should().HaveCount(2);
         }
 
         [TestMethod]

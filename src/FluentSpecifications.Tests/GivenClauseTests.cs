@@ -9,13 +9,13 @@
     public class GivenClauseTests
     {
         private readonly IGivenClause givenClause;
-        private readonly IServiceProvider serviceProvider;
+        private readonly IServiceCollection serviceCollection;
 
         public GivenClauseTests()
         {
-            serviceProvider = new ServiceCollection().AddSingleton<string>("Hello world!").BuildServiceProvider();
+            serviceCollection = new ServiceCollection().AddSingleton<string>("Hello world!");
 
-            givenClause = new GivenClause(serviceProvider);
+            givenClause = new GivenClause(serviceCollection);
         }
 
 
@@ -36,7 +36,7 @@
         }
 
         [TestMethod]
-        public void TestGivenActionNoServiceProvider()
+        public void TestGivenActionNoServiceCollection()
         {
             var x = 0;
 
@@ -46,13 +46,21 @@
         }
 
         [TestMethod]
-        public void TestGivenActionAndServiceProvider()
+        public void TestGivenActionAndServiceCollection()
         {
-            var x = "0";
+            var x = 0;
 
-            givenClause.And("my label", svc => x = svc.GetService<string>());
+            givenClause.And("my label", svc =>
+            {
+                svc.AddSingleton<string>("Another");
+            });
 
-            x.Should().Be("Hello world!");
+            x.Should().Be(0);
+
+            var svc = serviceCollection.BuildServiceProvider();
+
+            var strings = svc.GetServices<string>();
+            strings.Should().HaveCount(2);
         }
 
         [TestMethod]
