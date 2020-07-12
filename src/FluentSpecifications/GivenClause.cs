@@ -1,18 +1,10 @@
 ﻿namespace FluentSpecifications
 {
-    using Microsoft.Extensions.DependencyInjection;
     using System;
 
     public class GivenClause : IGivenClause
     {
-        private readonly IServiceCollection serviceCollection;
-
-        public GivenClause(IServiceCollection serviceCollection)
-        {
-            this.serviceCollection = serviceCollection ?? new ServiceCollection();
-        }
-
-        public IGivenClause And(string label, Action<IServiceCollection> givenAction)
+        public IGivenClause And(string label, Action givenAction)
         {
             Console.WriteLine($"  AND {label}");
 
@@ -21,12 +13,12 @@
                 throw new ArgumentNullException(nameof(givenAction), "Cannot invoke a null action");
             }
 
-            givenAction(serviceCollection);
+            givenAction();
 
-            return new GivenClause(serviceCollection);
+            return new GivenClause();
         }
 
-        public IThenClause Then(string label, Action<IServiceProvider> thenAction)
+        public IThenClause Then(string label, Action thenAction)
         {
             Console.WriteLine($" THEN {label}");
 
@@ -35,14 +27,12 @@
                 throw new ArgumentNullException(nameof(thenAction), "Cannot invoke a null action");
             }
 
-            var serviceProvider = serviceCollection.BuildServiceProvider();
+            thenAction();
 
-            thenAction(serviceProvider);
-
-            return new ThenClause(serviceProvider);
+            return new ThenClause();
         }
 
-        public IWhenClause When(string label, Action<IServiceProvider> whenAction)
+        public IWhenClause When(string label, Action whenAction)
         {
             Console.WriteLine($" WHEN {label}");
 
@@ -51,11 +41,9 @@
                 throw new ArgumentNullException(nameof(whenAction), "Cannot invoke a null action");
             }
 
-            var serviceProvider = serviceCollection.BuildServiceProvider();
+            whenAction();
 
-            whenAction(serviceProvider);
-
-            return new WhenClause(serviceProvider);
+            return new WhenClause();
         }
     }
 }

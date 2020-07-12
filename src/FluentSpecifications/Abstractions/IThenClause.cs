@@ -4,6 +4,6 @@
 
     public interface IThenClause
     {
-        IThenClause And(string label, Action<IServiceProvider> thenAction);
+        IThenClause And(string label, Action thenAction);
     }
 }

@@ -4,14 +4,7 @@
 
     public class WhenClause : IWhenClause
     {
-        private readonly IServiceProvider serviceProvider;
-
-        public WhenClause(IServiceProvider serviceProvider)
-        {
-            this.serviceProvider = serviceProvider;
-        }
-
-        public IWhenClause And(string label, Action<IServiceProvider> whenAction)
+        public IWhenClause And(string label, Action whenAction)
         {
             Console.WriteLine($"  AND {label}");
 
@@ -20,12 +13,12 @@
                 throw new ArgumentNullException(nameof(whenAction), "Cannot invoke a null action");
             }
 
-            whenAction(serviceProvider);
+            whenAction();
 
-            return new WhenClause(serviceProvider);
+            return new WhenClause();
         }
 
-        public IThenClause Then(string label, Action<IServiceProvider> thenAction)
+        public IThenClause Then(string label, Action thenAction)
         {
             Console.WriteLine($" THEN {label}");
 
@@ -34,9 +27,9 @@
                 throw new ArgumentNullException(nameof(thenAction), "Cannot invoke a null action");
             }
 
-            thenAction(serviceProvider);
+            thenAction();
 
-            return new ThenClause(serviceProvider);
+            return new ThenClause();
         }
     }
 }

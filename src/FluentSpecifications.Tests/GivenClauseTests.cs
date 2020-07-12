@@ -1,23 +1,13 @@
 ﻿namespace FluentSpecifications.Tests
 {
     using FluentAssertions;
-    using Microsoft.Extensions.DependencyInjection;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
 
     [TestClass]
     public class GivenClauseTests
     {
-        private readonly IGivenClause givenClause;
-        private readonly IServiceCollection serviceCollection;
-
-        public GivenClauseTests()
-        {
-            serviceCollection = new ServiceCollection().AddSingleton<string>("Hello world!");
-
-            givenClause = new GivenClause(serviceCollection);
-        }
-
+        private readonly IGivenClause givenClause = new GivenClause();
 
         [TestMethod]
         public void TestGivenActionIsNull()
@@ -36,31 +26,13 @@
         }
 
         [TestMethod]
-        public void TestGivenActionNoServiceCollection()
+        public void TestGivenActionNotNull()
         {
             var x = 0;
 
-            givenClause.And("my label", _ => x = 1);
+            givenClause.And("my label", () => x = 1);
 
             x.Should().Be(1);
-        }
-
-        [TestMethod]
-        public void TestGivenActionAndServiceCollection()
-        {
-            var x = 0;
-
-            givenClause.And("my label", svc =>
-            {
-                svc.AddSingleton<string>("Another");
-            });
-
-            x.Should().Be(0);
-
-            var svc = serviceCollection.BuildServiceProvider();
-
-            var strings = svc.GetServices<string>();
-            strings.Should().HaveCount(2);
         }
 
         [TestMethod]
@@ -80,23 +52,13 @@
         }
 
         [TestMethod]
-        public void TestWhenActionNoServiceProvider()
+        public void TestWhenActionNotNull()
         {
             var x = 0;
 
-            givenClause.When("my label", _ => x = 1);
+            givenClause.When("my label", () => x = 1);
 
             x.Should().Be(1);
-        }
-
-        [TestMethod]
-        public void TestWhenActionAndServiceProvider()
-        {
-            var x = "0";
-
-            givenClause.When("my label", svc => x = svc.GetService<string>());
-
-            x.Should().Be("Hello world!");
         }
 
         [TestMethod]
@@ -116,23 +78,13 @@
         }
 
         [TestMethod]
-        public void TestThenActionNoServiceProvider()
+        public void TestThenActionNotNull()
         {
             var x = 0;
 
-            givenClause.Then("my label", _ => x = 1);
+            givenClause.Then("my label", () => x = 1);
 
             x.Should().Be(1);
-        }
-
-        [TestMethod]
-        public void TestThenActionAndServiceProvider()
-        {
-            var x = "0";
-
-            givenClause.Then("my label", svc => x = svc.GetService<string>());
-
-            x.Should().Be("Hello world!");
         }
     }
 }
