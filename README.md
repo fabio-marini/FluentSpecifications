@@ -1,9 +1,11 @@
 # FluentSpecifications
 A simple fluent API for writing tests in the given/when/then format.
 
-Access the API using the `FluentSpecBuilder` class and use the `Given`, `When` and `Then` methods to define a fluent specification.
+Access the API using the `FluentSpecBuilder` class and use the `Given`, `When` and `Then` methods to define your tests.
 
-Each method accepts a free-text label description and an `Action` delegate, which represents the code executed by the method.
+Each method accepts a free-text label description and an `Action` delegate, which represents the code that will be executed.
+
+You can download the NuGet package from [NuGet.org](https://www.nuget.org/packages/FluentSpecifications/)
 
 ## Example
 ```c#
