@@ -2,6 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Version>1.0.0</Version>
+    <Authors>Fabio Marini</Authors>
+    <Company />
+    <Description>A simple fluent API for writing tests in the given/when/then format</Description>
+    <PackageProjectUrl>https://github.com/fabio-marini/FluentSpecifications</PackageProjectUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
