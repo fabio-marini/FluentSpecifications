@@ -1,6 +1,7 @@
 ﻿namespace FluentSpecifications
 {
     using System;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the 'WHEN' clause of a fluent specification
@@ -27,6 +28,20 @@
             return new WhenClause();
         }
 
+        public IWhenClause And(string label, Func<Task> whenFunc)
+        {
+            Console.WriteLine($"  AND {label}");
+
+            if (whenFunc == null)
+            {
+                throw new ArgumentNullException(nameof(whenFunc), "Cannot invoke a null function");
+            }
+
+            var whenTask = whenFunc();
+
+            return new WhenClause();
+        }
+
         /// <summary>
         /// Represents the 'THEN' clause of a fluent specification
         /// </summary>
@@ -43,6 +58,20 @@
             }
 
             thenAction();
+
+            return new ThenClause();
+        }
+
+        public IThenClause Then(string label, Func<Task> thenFunc)
+        {
+            Console.WriteLine($" THEN {label}");
+
+            if (thenFunc == null)
+            {
+                throw new ArgumentNullException(nameof(thenFunc), "Cannot invoke a null function");
+            }
+
+            var thenTask = thenFunc();
 
             return new ThenClause();
         }

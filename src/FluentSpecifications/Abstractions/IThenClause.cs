@@ -1,6 +1,7 @@
 ﻿namespace FluentSpecifications
 {
     using System;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the 'THEN' clause of a fluent specification
@@ -14,5 +15,6 @@
         /// <param name="thenAction">The action to execute for this clause</param>
         /// <returns>The 'AND (THEN)' clause of a fluent specification</returns>
         IThenClause And(string label, Action thenAction);
+        IThenClause And(string label, Func<Task> thenFunc);
     }
 }
