@@ -14,7 +14,7 @@
         {
             try
             {
-                thenClause.And("my label", null);
+                thenClause.And("my label", default(Action));
 
                 true.Should().BeFalse();
             }

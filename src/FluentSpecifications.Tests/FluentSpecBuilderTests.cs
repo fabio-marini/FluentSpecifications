@@ -14,7 +14,7 @@
         {
             try
             {
-                fluentSpecBuilder.Given("my label", null);
+                fluentSpecBuilder.Given("my label", default(Action));
 
                 true.Should().BeFalse();
             }
@@ -40,7 +40,7 @@
         {
             try
             {
-                fluentSpecBuilder.When("my label", null);
+                fluentSpecBuilder.When("my label", default(Action));
 
                 true.Should().BeFalse();
             }

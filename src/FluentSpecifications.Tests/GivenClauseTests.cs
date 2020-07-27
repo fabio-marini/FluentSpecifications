@@ -14,7 +14,7 @@
         {
             try
             {
-                givenClause.And("my label", null);
+                givenClause.And("my label", default(Action));
 
                 true.Should().BeFalse();
             }
@@ -40,7 +40,7 @@
         {
             try
             {
-                givenClause.When("my label", null);
+                givenClause.When("my label", default(Action));
 
                 true.Should().BeFalse();
             }
@@ -66,7 +66,7 @@
         {
             try
             {
-                givenClause.Then("my label", null);
+                givenClause.Then("my label", default(Action));
 
                 true.Should().BeFalse();
             }
