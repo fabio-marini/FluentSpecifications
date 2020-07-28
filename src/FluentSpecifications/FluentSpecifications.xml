@@ -11,18 +11,34 @@
         </member>
         <member name="M:FluentSpecifications.IFluentSpecBuilder.Given(System.String,System.Action)">
             <summary>
-            Represents the 'GIVEN' clause of a fluent specification
+            Represents the 'GIVEN' clause of a fluent specification (sync)
             </summary>
             <param name="label">The free-text label to describe this clause</param>
             <param name="givenAction">The action to execute for this clause</param>
             <returns>The 'GIVEN' clause of a fluent specification</returns>
         </member>
+        <member name="M:FluentSpecifications.IFluentSpecBuilder.Given(System.String,System.Func{System.Threading.Tasks.Task})">
+            <summary>
+            Represents the 'GIVEN' clause of a fluent specification (async)
+            </summary>
+            <param name="label">The free-text label to describe this clause</param>
+            <param name="givenFunc">The function to execute for this clause</param>
+            <returns>The 'GIVEN' clause of a fluent specification</returns>
+        </member>
         <member name="M:FluentSpecifications.IFluentSpecBuilder.When(System.String,System.Action)">
             <summary>
-            Represents the 'WHEN' clause of a fluent specification
+            Represents the 'WHEN' clause of a fluent specification (sync)
             </summary>
             <param name="label">The free-text label to describe this clause</param>
             <param name="whenAction">The action to execute for this clause</param>
+            <returns>The 'WHEN' clause of a fluent specification</returns>
+        </member>
+        <member name="M:FluentSpecifications.IFluentSpecBuilder.When(System.String,System.Func{System.Threading.Tasks.Task})">
+            <summary>
+            Represents the 'WHEN' clause of a fluent specification (async)
+            </summary>
+            <param name="label">The free-text label to describe this clause</param>
+            <param name="whenFunc">The function to execute for this clause</param>
             <returns>The 'WHEN' clause of a fluent specification</returns>
         </member>
         <member name="T:FluentSpecifications.IGivenClause">
@@ -32,26 +48,50 @@
         </member>
         <member name="M:FluentSpecifications.IGivenClause.And(System.String,System.Action)">
             <summary>
-            Represents the 'AND (GIVEN)' clause of a fluent specification
+            Represents the 'AND (GIVEN)' clause of a fluent specification (sync)
             </summary>
             <param name="label">The free-text label to describe this clause</param>
             <param name="givenAction">The action to execute for this clause</param>
-            <returns>The 'AND (GIVEN(' clause of a fluent specification</returns>
+            <returns>The 'AND (GIVEN)' clause of a fluent specification</returns>
+        </member>
+        <member name="M:FluentSpecifications.IGivenClause.And(System.String,System.Func{System.Threading.Tasks.Task})">
+            <summary>
+            Represents the 'AND (GIVEN)' clause of a fluent specification (async)
+            </summary>
+            <param name="label">The free-text label to describe this clause</param>
+            <param name="givenFunc">The function to execute for this clause</param>
+            <returns>The 'AND (GIVEN)' clause of a fluent specification</returns>
         </member>
         <member name="M:FluentSpecifications.IGivenClause.When(System.String,System.Action)">
             <summary>
-            Represents the 'WHEN' clause of a fluent specification
+            Represents the 'WHEN' clause of a fluent specification (sync)
             </summary>
             <param name="label">The free-text label to describe this clause</param>
             <param name="whenAction">The action to execute for this clause</param>
             <returns>The 'WHEN' clause of a fluent specification</returns>
         </member>
+        <member name="M:FluentSpecifications.IGivenClause.When(System.String,System.Func{System.Threading.Tasks.Task})">
+            <summary>
+            Represents the 'WHEN' clause of a fluent specification (async)
+            </summary>
+            <param name="label">The free-text label to describe this clause</param>
+            <param name="whenFunc">The function to execute for this clause</param>
+            <returns>The 'WHEN' clause of a fluent specification</returns>
+        </member>
         <member name="M:FluentSpecifications.IGivenClause.Then(System.String,System.Action)">
             <summary>
-            Represents the 'THEN' clause of a fluent specification
+            Represents the 'THEN' clause of a fluent specification (sync)
             </summary>
             <param name="label">The free-text label to describe this clause</param>
             <param name="thenAction">The action to execute for this clause</param>
+            <returns>The 'THEN' clause of a fluent specification</returns>
+        </member>
+        <member name="M:FluentSpecifications.IGivenClause.Then(System.String,System.Func{System.Threading.Tasks.Task})">
+            <summary>
+            Represents the 'THEN' clause of a fluent specification (async)
+            </summary>
+            <param name="label">The free-text label to describe this clause</param>
+            <param name="thenFunc">The function to execute for this clause</param>
             <returns>The 'THEN' clause of a fluent specification</returns>
         </member>
         <member name="T:FluentSpecifications.IThenClause">
@@ -61,10 +101,18 @@
         </member>
         <member name="M:FluentSpecifications.IThenClause.And(System.String,System.Action)">
             <summary>
-            Represents the 'AND (THEN)' clause of a fluent specification
+            Represents the 'AND (THEN)' clause of a fluent specification (sync)
             </summary>
             <param name="label">The free-text label to describe this clause</param>
             <param name="thenAction">The action to execute for this clause</param>
+            <returns>The 'AND (THEN)' clause of a fluent specification</returns>
+        </member>
+        <member name="M:FluentSpecifications.IThenClause.And(System.String,System.Func{System.Threading.Tasks.Task})">
+            <summary>
+            Represents the 'AND (THEN)' clause of a fluent specification (async)
+            </summary>
+            <param name="label">The free-text label to describe this clause</param>
+            <param name="thenFunc">The function to execute for this clause</param>
             <returns>The 'AND (THEN)' clause of a fluent specification</returns>
         </member>
         <member name="T:FluentSpecifications.IWhenClause">
@@ -74,18 +122,34 @@
         </member>
         <member name="M:FluentSpecifications.IWhenClause.And(System.String,System.Action)">
             <summary>
-            Represents the 'AND (WHEN)' clause of a fluent specification
+            Represents the 'AND (WHEN)' clause of a fluent specification (sync)
             </summary>
             <param name="label">The free-text label to describe this clause</param>
             <param name="whenAction">The action to execute for this clause</param>
             <returns>The 'AND (WHEN)' clause of a fluent specification</returns>
         </member>
+        <member name="M:FluentSpecifications.IWhenClause.And(System.String,System.Func{System.Threading.Tasks.Task})">
+            <summary>
+            Represents the 'AND (WHEN)' clause of a fluent specification (async)
+            </summary>
+            <param name="label">The free-text label to describe this clause</param>
+            <param name="whenFunc">The function to execute for this clause</param>
+            <returns>The 'AND (WHEN)' clause of a fluent specification</returns>
+        </member>
         <member name="M:FluentSpecifications.IWhenClause.Then(System.String,System.Action)">
             <summary>
-            Represents the 'THEN' clause of a fluent specification
+            Represents the 'THEN' clause of a fluent specification (sync)
             </summary>
             <param name="label">The free-text label to describe this clause</param>
             <param name="thenAction">The action to execute for this clause</param>
+            <returns>The 'THEN' clause of a fluent specification</returns>
+        </member>
+        <member name="M:FluentSpecifications.IWhenClause.Then(System.String,System.Func{System.Threading.Tasks.Task})">
+            <summary>
+            Represents the 'THEN' clause of a fluent specification (async)
+            </summary>
+            <param name="label">The free-text label to describe this clause</param>
+            <param name="thenFunc">The function to execute for this clause</param>
             <returns>The 'THEN' clause of a fluent specification</returns>
         </member>
         <member name="T:FluentSpecifications.FluentSpecBuilder">
@@ -95,18 +159,34 @@
         </member>
         <member name="M:FluentSpecifications.FluentSpecBuilder.Given(System.String,System.Action)">
             <summary>
-            Represents the 'GIVEN' clause of a fluent specification
+            Represents the 'GIVEN' clause of a fluent specification (sync)
             </summary>
             <param name="label">The free-text label to describe this clause</param>
             <param name="givenAction">The action to execute for this clause</param>
             <returns>The 'GIVEN' clause of a fluent specification</returns>
         </member>
+        <member name="M:FluentSpecifications.FluentSpecBuilder.Given(System.String,System.Func{System.Threading.Tasks.Task})">
+            <summary>
+            Represents the 'GIVEN' clause of a fluent specification (async)
+            </summary>
+            <param name="label">The free-text label to describe this clause</param>
+            <param name="givenFunc">The function to execute for this clause</param>
+            <returns>The 'GIVEN' clause of a fluent specification</returns>
+        </member>
         <member name="M:FluentSpecifications.FluentSpecBuilder.When(System.String,System.Action)">
             <summary>
-            Represents the 'WHEN' clause of a fluent specification
+            Represents the 'WHEN' clause of a fluent specification (sync)
             </summary>
             <param name="label">The free-text label to describe this clause</param>
             <param name="whenAction">The action to execute for this clause</param>
+            <returns>The 'WHEN' clause of a fluent specification</returns>
+        </member>
+        <member name="M:FluentSpecifications.FluentSpecBuilder.When(System.String,System.Func{System.Threading.Tasks.Task})">
+            <summary>
+            Represents the 'WHEN' clause of a fluent specification (async)
+            </summary>
+            <param name="label">The free-text label to describe this clause</param>
+            <param name="whenFunc">The function to execute for this clause</param>
             <returns>The 'WHEN' clause of a fluent specification</returns>
         </member>
         <member name="T:FluentSpecifications.GivenClause">
@@ -122,13 +202,29 @@
             <param name="givenAction">The action to execute for this clause</param>
             <returns>The 'AND (GIVEN)' clause of a fluent specification</returns>
         </member>
+        <member name="M:FluentSpecifications.GivenClause.And(System.String,System.Func{System.Threading.Tasks.Task})">
+            <summary>
+            Represents the 'AND (GIVEN)' clause of a fluent specification (async)
+            </summary>
+            <param name="label">The free-text label to describe this clause</param>
+            <param name="givenFunc">The function to execute for this clause</param>
+            <returns>The 'AND (GIVEN)' clause of a fluent specification</returns>
+        </member>
         <member name="M:FluentSpecifications.GivenClause.Then(System.String,System.Action)">
             <summary>
             Represents the 'THEN' clause of a fluent specification
             </summary>
             <param name="label">The free-text label to describe this clause</param>
             <param name="thenAction">The action to execute for this clause</param>
-            <returns>The 'then' clause of a fluent specification</returns>
+            <returns>The 'THEN' clause of a fluent specification</returns>
+        </member>
+        <member name="M:FluentSpecifications.GivenClause.Then(System.String,System.Func{System.Threading.Tasks.Task})">
+            <summary>
+            Represents the 'THEN' clause of a fluent specification (async)
+            </summary>
+            <param name="label">The free-text label to describe this clause</param>
+            <param name="thenFunc">The function to execute for this clause</param>
+            <returns>The 'THEN' clause of a fluent specification</returns>
         </member>
         <member name="M:FluentSpecifications.GivenClause.When(System.String,System.Action)">
             <summary>
@@ -136,6 +232,14 @@
             </summary>
             <param name="label">The free-text label to describe this clause</param>
             <param name="whenAction">The action to execute for this clause</param>
+            <returns>The 'WHEN' clause of a fluent specification</returns>
+        </member>
+        <member name="M:FluentSpecifications.GivenClause.When(System.String,System.Func{System.Threading.Tasks.Task})">
+            <summary>
+            Represents the 'WHEN' clause of a fluent specification (async)
+            </summary>
+            <param name="label">The free-text label to describe this clause</param>
+            <param name="whenFunc">The function to execute for this clause</param>
             <returns>The 'WHEN' clause of a fluent specification</returns>
         </member>
         <member name="T:FluentSpecifications.ThenClause">
@@ -151,6 +255,14 @@
             <param name="thenAction">The action to execute for this clause</param>
             <returns>The 'AND (THEN)' clause of a fluent specification</returns>
         </member>
+        <member name="M:FluentSpecifications.ThenClause.And(System.String,System.Func{System.Threading.Tasks.Task})">
+            <summary>
+            Represents the 'AND (THEN)' clause of a fluent specification (async)
+            </summary>
+            <param name="label">The free-text label to describe this clause</param>
+            <param name="thenFunc">The function to execute for this clause</param>
+            <returns>The 'AND (THEN)' clause of a fluent specification</returns>
+        </member>
         <member name="T:FluentSpecifications.WhenClause">
             <summary>
             Represents the 'WHEN' clause of a fluent specification
@@ -164,12 +276,28 @@
             <param name="whenAction">The action to execute for this clause</param>
             <returns>The 'AND (WHEN)' clause of a fluent specification</returns>
         </member>
+        <member name="M:FluentSpecifications.WhenClause.And(System.String,System.Func{System.Threading.Tasks.Task})">
+            <summary>
+            Represents the 'AND (WHEN)' clause of a fluent specification (async)
+            </summary>
+            <param name="label">The free-text label to describe this clause</param>
+            <param name="whenFunc">The function to execute for this clause</param>
+            <returns>The 'AND (WHEN)' clause of a fluent specification</returns>
+        </member>
         <member name="M:FluentSpecifications.WhenClause.Then(System.String,System.Action)">
             <summary>
             Represents the 'THEN' clause of a fluent specification
             </summary>
             <param name="label">The free-text label to describe this clause</param>
             <param name="thenAction">The action to execute for this clause</param>
+            <returns>The 'THEN' clause of a fluent specification</returns>
+        </member>
+        <member name="M:FluentSpecifications.WhenClause.Then(System.String,System.Func{System.Threading.Tasks.Task})">
+            <summary>
+            Represents the 'THEN' clause of a fluent specification (async)
+            </summary>
+            <param name="label">The free-text label to describe this clause</param>
+            <param name="thenFunc">The function to execute for this clause</param>
             <returns>The 'THEN' clause of a fluent specification</returns>
         </member>
     </members>
