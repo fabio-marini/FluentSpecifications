@@ -3,12 +3,20 @@
     using FluentAssertions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
+    using System.IO;
     using System.Threading.Tasks;
 
     [TestClass]
     public class FluentSpecBuilderTests
     {
-        private readonly FluentSpecBuilder fluentSpecBuilder = new FluentSpecBuilder();
+        private readonly FluentSpecBuilder specBuilder;
+        private readonly StringWriter specWriter;
+
+        public FluentSpecBuilderTests()
+        {
+            specWriter = new StringWriter();
+            specBuilder = new FluentSpecBuilder(specWriter);
+        }
 
         #region Sync Methods
 
@@ -17,7 +25,7 @@
         {
             try
             {
-                fluentSpecBuilder.Given("my label", default(Action));
+                specBuilder.Given("my label", default(Action));
 
                 true.Should().BeFalse();
             }
@@ -25,6 +33,8 @@
             {
                 ex.Should().BeOfType<ArgumentNullException>();
                 ex.Message.Should().Be("Cannot invoke a null action (Parameter 'givenAction')");
+
+                specWriter.ToString().Length.Should().Be(0);
             }
         }
 
@@ -33,9 +43,11 @@
         {
             var x = 0;
 
-            fluentSpecBuilder.Given("my label", () => x = 1);
+            specBuilder.Given("my label", () => x = 1);
 
             x.Should().Be(1);
+
+            specWriter.ToString().Should().Be("GIVEN my label\r\n");
         }
 
         [TestMethod]
@@ -43,7 +55,7 @@
         {
             try
             {
-                fluentSpecBuilder.When("my label", default(Action));
+                specBuilder.When("my label", default(Action));
 
                 true.Should().BeFalse();
             }
@@ -51,6 +63,8 @@
             {
                 ex.Should().BeOfType<ArgumentNullException>();
                 ex.Message.Should().Be("Cannot invoke a null action (Parameter 'whenAction')");
+
+                specWriter.ToString().Length.Should().Be(0);
             }
         }
 
@@ -59,9 +73,11 @@
         {
             var x = 0;
 
-            fluentSpecBuilder.When("my label", () => x = 1);
+            specBuilder.When("my label", () => x = 1);
 
             x.Should().Be(1);
+
+            specWriter.ToString().Should().Be(" WHEN my label\r\n");
         }
 
         #endregion
@@ -73,7 +89,7 @@
         {
             try
             {
-                fluentSpecBuilder.Given("my label", default(Func<Task>));
+                specBuilder.Given("my label", default(Func<Task>));
 
                 true.Should().BeFalse();
             }
@@ -81,6 +97,8 @@
             {
                 ex.Should().BeOfType<ArgumentNullException>();
                 ex.Message.Should().Be("Cannot invoke a null function (Parameter 'givenFunc')");
+
+                specWriter.ToString().Length.Should().Be(0);
             }
         }
 
@@ -89,7 +107,7 @@
         {
             var x = 0;
 
-            fluentSpecBuilder.Given("my label", () =>
+            specBuilder.Given("my label", () =>
             {
                 x = 1;
 
@@ -97,6 +115,8 @@
             });
 
             x.Should().Be(1);
+
+            specWriter.ToString().Should().Be("GIVEN my label\r\n");
         }
 
         [TestMethod]
@@ -104,7 +124,7 @@
         {
             try
             {
-                fluentSpecBuilder.When("my label", default(Func<Task>));
+                specBuilder.When("my label", default(Func<Task>));
 
                 true.Should().BeFalse();
             }
@@ -112,6 +132,8 @@
             {
                 ex.Should().BeOfType<ArgumentNullException>();
                 ex.Message.Should().Be("Cannot invoke a null function (Parameter 'whenFunc')");
+
+                specWriter.ToString().Length.Should().Be(0);
             }
         }
 
@@ -120,7 +142,7 @@
         {
             var x = 0;
 
-            fluentSpecBuilder.When("my label", () =>
+            specBuilder.When("my label", () =>
             {
                 x = 1;
 
@@ -128,6 +150,8 @@
             });
 
             x.Should().Be(1);
+
+            specWriter.ToString().Should().Be(" WHEN my label\r\n");
         }
 
         #endregion

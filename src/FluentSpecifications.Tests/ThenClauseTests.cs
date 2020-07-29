@@ -3,12 +3,21 @@
     using FluentAssertions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
+    using System.IO;
     using System.Threading.Tasks;
 
     [TestClass]
     public class ThenClauseTests
     {
-        private readonly IThenClause thenClause = new ThenClause();
+        private readonly IThenClause thenClause;
+        private readonly StringWriter specWriter;
+
+        public ThenClauseTests()
+        {
+            specWriter = new StringWriter();
+            thenClause = new ThenClause(specWriter);
+        }
+
 
         #region Sync Methods
 
@@ -25,6 +34,8 @@
             {
                 ex.Should().BeOfType<ArgumentNullException>();
                 ex.Message.Should().Be("Cannot invoke a null action (Parameter 'thenAction')");
+
+                specWriter.ToString().Length.Should().Be(0);
             }
         }
 
@@ -36,6 +47,8 @@
             thenClause.And("my label", () => x = 1);
 
             x.Should().Be(1);
+
+            specWriter.ToString().Should().Be("  AND my label\r\n");
         }
 
         #endregion
@@ -55,6 +68,8 @@
             {
                 ex.Should().BeOfType<ArgumentNullException>();
                 ex.Message.Should().Be("Cannot invoke a null function (Parameter 'thenFunc')");
+
+                specWriter.ToString().Length.Should().Be(0);
             }
         }
 
@@ -71,6 +86,8 @@
             });
 
             x.Should().Be(1);
+
+            specWriter.ToString().Should().Be("  AND my label\r\n");
         }
 
         #endregion

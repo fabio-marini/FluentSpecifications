@@ -157,6 +157,12 @@
             Represents the entry point of a fluent specification
             </summary>
         </member>
+        <member name="M:FluentSpecifications.FluentSpecBuilder.#ctor(System.IO.TextWriter)">
+            <summary>
+            Creates an instance of the fluent specification builder
+            </summary>
+            <param name="specWriter">The <see cref="T:System.IO.TextWriter"/> to write the output to</param>
+        </member>
         <member name="M:FluentSpecifications.FluentSpecBuilder.Given(System.String,System.Action)">
             <summary>
             Represents the 'GIVEN' clause of a fluent specification (sync)
@@ -193,6 +199,12 @@
             <summary>
             Represents the 'GIVEN' clause of a fluent specification
             </summary>
+        </member>
+        <member name="M:FluentSpecifications.GivenClause.#ctor(System.IO.TextWriter)">
+            <summary>
+            Creates an instance of the fluent specification builder
+            </summary>
+            <param name="specWriter">The <see cref="T:System.IO.TextWriter"/> to write the output to</param>
         </member>
         <member name="M:FluentSpecifications.GivenClause.And(System.String,System.Action)">
             <summary>
@@ -247,6 +259,12 @@
             Represents the 'THEN' clause of a fluent specification
             </summary>
         </member>
+        <member name="M:FluentSpecifications.ThenClause.#ctor(System.IO.TextWriter)">
+            <summary>
+            Creates an instance of the fluent specification builder
+            </summary>
+            <param name="specWriter">The <see cref="T:System.IO.TextWriter"/> to write the output to</param>
+        </member>
         <member name="M:FluentSpecifications.ThenClause.And(System.String,System.Action)">
             <summary>
             Represents the 'AND (THEN)' clause of a fluent specification
@@ -267,6 +285,12 @@
             <summary>
             Represents the 'WHEN' clause of a fluent specification
             </summary>
+        </member>
+        <member name="M:FluentSpecifications.WhenClause.#ctor(System.IO.TextWriter)">
+            <summary>
+            Creates an instance of the fluent specification builder
+            </summary>
+            <param name="specWriter">The <see cref="T:System.IO.TextWriter"/> to write the output to</param>
         </member>
         <member name="M:FluentSpecifications.WhenClause.And(System.String,System.Action)">
             <summary>

@@ -1,13 +1,25 @@
 ﻿namespace FluentSpecifications
 {
     using System;
+    using System.IO;
     using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the 'WHEN' clause of a fluent specification
     /// </summary>
-    public class WhenClause : IWhenClause
+    internal class WhenClause : IWhenClause
     {
+        private readonly TextWriter specWriter;
+
+        /// <summary>
+        /// Creates an instance of the fluent specification builder
+        /// </summary>
+        /// <param name="specWriter">The <see cref="TextWriter"/> to write the output to</param>
+        public WhenClause(TextWriter specWriter)
+        {
+            this.specWriter = specWriter;
+        }
+
         /// <summary>
         /// Represents the 'AND (WHEN)' clause of a fluent specification
         /// </summary>
@@ -16,8 +28,6 @@
         /// <returns>The 'AND (WHEN)' clause of a fluent specification</returns>
         public IWhenClause And(string label, Action whenAction)
         {
-            Console.WriteLine($"  AND {label}");
-
             if (whenAction == null)
             {
                 throw new ArgumentNullException(nameof(whenAction), "Cannot invoke a null action");
@@ -25,7 +35,9 @@
 
             whenAction();
 
-            return new WhenClause();
+            specWriter.WriteLine($"  AND {label}");
+
+            return new WhenClause(specWriter);
         }
 
         /// <summary>
@@ -36,16 +48,14 @@
         /// <returns>The 'AND (WHEN)' clause of a fluent specification</returns>
         public IWhenClause And(string label, Func<Task> whenFunc)
         {
-            Console.WriteLine($"  AND {label}");
-
             if (whenFunc == null)
             {
                 throw new ArgumentNullException(nameof(whenFunc), "Cannot invoke a null function");
             }
 
-            var whenTask = whenFunc().ConfigureAwait(false);
+            whenFunc().ContinueWith(t => specWriter.WriteLine($"  AND {label}"), TaskContinuationOptions.ExecuteSynchronously).ConfigureAwait(false);
 
-            return new WhenClause();
+            return new WhenClause(specWriter);
         }
 
         /// <summary>
@@ -56,8 +66,6 @@
         /// <returns>The 'THEN' clause of a fluent specification</returns>
         public IThenClause Then(string label, Action thenAction)
         {
-            Console.WriteLine($" THEN {label}");
-
             if (thenAction == null)
             {
                 throw new ArgumentNullException(nameof(thenAction), "Cannot invoke a null action");
@@ -65,7 +73,9 @@
 
             thenAction();
 
-            return new ThenClause();
+            specWriter.WriteLine($" THEN {label}");
+
+            return new ThenClause(specWriter);
         }
 
         /// <summary>
@@ -76,16 +86,14 @@
         /// <returns>The 'THEN' clause of a fluent specification</returns>
         public IThenClause Then(string label, Func<Task> thenFunc)
         {
-            Console.WriteLine($" THEN {label}");
-
             if (thenFunc == null)
             {
                 throw new ArgumentNullException(nameof(thenFunc), "Cannot invoke a null function");
             }
 
-            var thenTask = thenFunc().ConfigureAwait(false);
+            thenFunc().ContinueWith(t => specWriter.WriteLine($" THEN {label}"), TaskContinuationOptions.ExecuteSynchronously).ConfigureAwait(false);
 
-            return new ThenClause();
+            return new ThenClause(specWriter);
         }
     }
 }

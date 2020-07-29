@@ -1,6 +1,8 @@
-﻿namespace FluentSpecifications
+﻿[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("FluentSpecifications.Tests")]
+namespace FluentSpecifications
 {
     using System;
+    using System.IO;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -8,6 +10,20 @@
     /// </summary>
     public class FluentSpecBuilder : IFluentSpecBuilder
     {
+        // TODO: add text writer ctor param to all clauses (not optional?)
+        // TODO: update XML docs with <see cref /> for Action, Func<Task> and clause
+        // TODO: make all clauses internal?
+        private readonly TextWriter specWriter;
+
+        /// <summary>
+        /// Creates an instance of the fluent specification builder
+        /// </summary>
+        /// <param name="specWriter">The <see cref="TextWriter"/> to write the output to</param>
+        public FluentSpecBuilder(TextWriter specWriter = null)
+        {
+            this.specWriter = specWriter ?? Console.Out;
+        }
+
         /// <summary>
         /// Represents the 'GIVEN' clause of a fluent specification (sync)
         /// </summary>
@@ -16,8 +32,6 @@
         /// <returns>The 'GIVEN' clause of a fluent specification</returns>
         public IGivenClause Given(string label, Action givenAction)
         {
-            Console.WriteLine($"GIVEN {label}");
-
             if (givenAction == null)
             {
                 throw new ArgumentNullException(nameof(givenAction), "Cannot invoke a null action");
@@ -25,7 +39,9 @@
 
             givenAction();
 
-            return new GivenClause();
+            specWriter.WriteLine($"GIVEN {label}");
+
+            return new GivenClause(specWriter);
         }
 
         /// <summary>
@@ -36,16 +52,14 @@
         /// <returns>The 'GIVEN' clause of a fluent specification</returns>
         public IGivenClause Given(string label, Func<Task> givenFunc)
         {
-            Console.WriteLine($"GIVEN {label}");
-
             if (givenFunc == null)
             {
                 throw new ArgumentNullException(nameof(givenFunc), "Cannot invoke a null function");
             }
 
-            var givenTask = givenFunc().ConfigureAwait(false);
+            givenFunc().ContinueWith(t => specWriter.WriteLine($"GIVEN {label}"), TaskContinuationOptions.ExecuteSynchronously);
 
-            return new GivenClause();
+            return new GivenClause(specWriter);
         }
 
         /// <summary>
@@ -56,8 +70,6 @@
         /// <returns>The 'WHEN' clause of a fluent specification</returns>
         public IWhenClause When(string label, Action whenAction)
         {
-            Console.WriteLine($" WHEN {label}");
-
             if (whenAction == null)
             {
                 throw new ArgumentNullException(nameof(whenAction), "Cannot invoke a null action");
@@ -65,7 +77,9 @@
 
             whenAction();
 
-            return new WhenClause();
+            specWriter.WriteLine($" WHEN {label}");
+
+            return new WhenClause(specWriter);
         }
 
         /// <summary>
@@ -76,16 +90,14 @@
         /// <returns>The 'WHEN' clause of a fluent specification</returns>
         public IWhenClause When(string label, Func<Task> whenFunc)
         {
-            Console.WriteLine($" WHEN {label}");
-
             if (whenFunc == null)
             {
                 throw new ArgumentNullException(nameof(whenFunc), "Cannot invoke a null function");
             }
 
-            var whenTask = whenFunc().ConfigureAwait(false);
+            whenFunc().ContinueWith(t => specWriter.WriteLine($" WHEN {label}"), TaskContinuationOptions.ExecuteSynchronously);
 
-            return new WhenClause();
+            return new WhenClause(specWriter);
         }
     }
 }

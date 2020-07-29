@@ -3,12 +3,20 @@
     using FluentAssertions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
+    using System.IO;
     using System.Threading.Tasks;
 
     [TestClass]
     public class GivenClauseTests
     {
-        private readonly IGivenClause givenClause = new GivenClause();
+        private readonly IGivenClause givenClause;
+        private readonly StringWriter specWriter;
+
+        public GivenClauseTests()
+        {
+            specWriter = new StringWriter();
+            givenClause = new GivenClause(specWriter);
+        }
 
         #region Sync Methods
 
@@ -25,6 +33,8 @@
             {
                 ex.Should().BeOfType<ArgumentNullException>();
                 ex.Message.Should().Be("Cannot invoke a null action (Parameter 'givenAction')");
+
+                specWriter.ToString().Length.Should().Be(0);
             }
         }
 
@@ -36,6 +46,8 @@
             givenClause.And("my label", () => x = 1);
 
             x.Should().Be(1);
+
+            specWriter.ToString().Should().Be("  AND my label\r\n");
         }
 
         [TestMethod]
@@ -51,6 +63,8 @@
             {
                 ex.Should().BeOfType<ArgumentNullException>();
                 ex.Message.Should().Be("Cannot invoke a null action (Parameter 'whenAction')");
+
+                specWriter.ToString().Length.Should().Be(0);
             }
         }
 
@@ -62,6 +76,8 @@
             givenClause.When("my label", () => x = 1);
 
             x.Should().Be(1);
+
+            specWriter.ToString().Should().Be(" WHEN my label\r\n");
         }
 
         [TestMethod]
@@ -77,6 +93,8 @@
             {
                 ex.Should().BeOfType<ArgumentNullException>();
                 ex.Message.Should().Be("Cannot invoke a null action (Parameter 'thenAction')");
+
+                specWriter.ToString().Length.Should().Be(0);
             }
         }
 
@@ -88,6 +106,8 @@
             givenClause.Then("my label", () => x = 1);
 
             x.Should().Be(1);
+
+            specWriter.ToString().Should().Be(" THEN my label\r\n");
         }
 
         #endregion
@@ -107,6 +127,8 @@
             {
                 ex.Should().BeOfType<ArgumentNullException>();
                 ex.Message.Should().Be("Cannot invoke a null function (Parameter 'givenFunc')");
+
+                specWriter.ToString().Length.Should().Be(0);
             }
         }
 
@@ -123,6 +145,9 @@
             });
 
             x.Should().Be(1);
+
+
+            specWriter.ToString().Should().Be("  AND my label\r\n");
         }
 
         [TestMethod]
@@ -138,6 +163,8 @@
             {
                 ex.Should().BeOfType<ArgumentNullException>();
                 ex.Message.Should().Be("Cannot invoke a null function (Parameter 'whenFunc')");
+
+                specWriter.ToString().Length.Should().Be(0);
             }
         }
 
@@ -154,6 +181,8 @@
             });
 
             x.Should().Be(1);
+
+            specWriter.ToString().Should().Be(" WHEN my label\r\n");
         }
 
         [TestMethod]
@@ -169,6 +198,8 @@
             {
                 ex.Should().BeOfType<ArgumentNullException>();
                 ex.Message.Should().Be("Cannot invoke a null function (Parameter 'thenFunc')");
+
+                specWriter.ToString().Length.Should().Be(0);
             }
         }
 
@@ -185,6 +216,8 @@
             });
 
             x.Should().Be(1);
+
+            specWriter.ToString().Should().Be(" THEN my label\r\n");
         }
 
         #endregion
