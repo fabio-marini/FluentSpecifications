@@ -12,7 +12,7 @@
         private readonly TextWriter specWriter;
 
         /// <summary>
-        /// Creates an instance of the fluent specification builder
+        /// Creates an instance of the 'THEN' clause
         /// </summary>
         /// <param name="specWriter">The <see cref="TextWriter"/> to write the output to</param>
         public ThenClause(TextWriter specWriter)
@@ -53,7 +53,9 @@
                 throw new ArgumentNullException(nameof(thenFunc), "Cannot invoke a null function");
             }
 
-            thenFunc().ContinueWith(t => specWriter.WriteLine($"  AND {label}"), TaskContinuationOptions.ExecuteSynchronously).ConfigureAwait(false);
+            thenFunc().GetAwaiter().GetResult();
+
+            specWriter.WriteLine($"  AND {label}");
 
             return new ThenClause(specWriter);
         }

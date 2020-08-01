@@ -1,12 +1,11 @@
 ﻿namespace FluentSpecifications.Tests
 {
     using FluentAssertions;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using System.IO;
     using System.Threading.Tasks;
+    using Xunit;
 
-    [TestClass]
     public class WhenClauseTests
     {
         private readonly IWhenClause whenClause;
@@ -18,11 +17,10 @@
             whenClause = new WhenClause(specWriter);
         }
 
-
         #region Sync Methods
 
-        [TestMethod]
-        public void TestWhenActionIsNull()
+        [Fact(DisplayName = "'WHEN' And(string, Action) throws if Action is null")]
+        public void TestAndActionIsNull()
         {
             try
             {
@@ -39,8 +37,8 @@
             }
         }
 
-        [TestMethod]
-        public void TestWhenActionNotNull()
+        [Fact(DisplayName = "'WHEN' And(string, Action) returns if Action is not null")]
+        public void TestAndActionNotNull()
         {
             var x = 0;
 
@@ -51,7 +49,7 @@
             specWriter.ToString().Should().Be("  AND my label\r\n");
         }
 
-        [TestMethod]
+        [Fact(DisplayName = "'WHEN' Then(string, Action) throws if Action is null")]
         public void TestThenActionIsNull()
         {
             try
@@ -69,7 +67,7 @@
             }
         }
 
-        [TestMethod]
+        [Fact(DisplayName = "'WHEN' Then(string, Action) returns if Action is not null")]
         public void TestThenActionNotNull()
         {
             var x = 0;
@@ -85,8 +83,8 @@
 
         #region Sync Methods
 
-        [TestMethod]
-        public void TestWhenFunctionIsNull()
+        [Fact(DisplayName = "'WHEN' And(string, Func<Task>) throws if Func<Task> is null")]
+        public void TestAndFunctionIsNull()
         {
             try
             {
@@ -103,8 +101,8 @@
             }
         }
 
-        [TestMethod]
-        public void TestWhenFunctionNotNull()
+        [Fact(DisplayName = "'WHEN' And(string, Func<Task>) returns if Func<Task> is not null")]
+        public void TestAndFunctionNotNull()
         {
             var x = 0;
 
@@ -120,7 +118,7 @@
             specWriter.ToString().Should().Be("  AND my label\r\n");
         }
 
-        [TestMethod]
+        [Fact(DisplayName = "'WHEN' Then(string, Func<Task>) throws if Func<Task> is null")]
         public void TestThenFunctionIsNull()
         {
             try
@@ -138,7 +136,7 @@
             }
         }
 
-        [TestMethod]
+        [Fact(DisplayName = "'WHEN' Then(string, Func<Task>) returns if Func<Task> is not null")]
         public void TestThenFunctionNotNull()
         {
             var x = 0;

@@ -10,9 +10,6 @@ namespace FluentSpecifications
     /// </summary>
     public class FluentSpecBuilder : IFluentSpecBuilder
     {
-        // TODO: add text writer ctor param to all clauses (not optional?)
-        // TODO: update XML docs with <see cref /> for Action, Func<Task> and clause
-        // TODO: make all clauses internal?
         private readonly TextWriter specWriter;
 
         /// <summary>
@@ -21,7 +18,7 @@ namespace FluentSpecifications
         /// <param name="specWriter">The <see cref="TextWriter"/> to write the output to</param>
         public FluentSpecBuilder(TextWriter specWriter = null)
         {
-            this.specWriter = specWriter ?? Console.Out;
+            this.specWriter = specWriter ?? new StringWriter();
         }
 
         /// <summary>
@@ -57,8 +54,10 @@ namespace FluentSpecifications
                 throw new ArgumentNullException(nameof(givenFunc), "Cannot invoke a null function");
             }
 
-            givenFunc().ContinueWith(t => specWriter.WriteLine($"GIVEN {label}"), TaskContinuationOptions.ExecuteSynchronously);
+            givenFunc().GetAwaiter().GetResult();
 
+            specWriter.WriteLine($"GIVEN {label}");
+            
             return new GivenClause(specWriter);
         }
 
@@ -95,7 +94,9 @@ namespace FluentSpecifications
                 throw new ArgumentNullException(nameof(whenFunc), "Cannot invoke a null function");
             }
 
-            whenFunc().ContinueWith(t => specWriter.WriteLine($" WHEN {label}"), TaskContinuationOptions.ExecuteSynchronously);
+            whenFunc().GetAwaiter().GetResult();
+
+            specWriter.WriteLine($" WHEN {label}");
 
             return new WhenClause(specWriter);
         }

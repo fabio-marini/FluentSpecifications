@@ -1,12 +1,11 @@
 ﻿namespace FluentSpecifications.Tests
 {
     using FluentAssertions;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using System.IO;
     using System.Threading.Tasks;
+    using Xunit;
 
-    [TestClass]
     public class FluentSpecBuilderTests
     {
         private readonly FluentSpecBuilder specBuilder;
@@ -20,7 +19,7 @@
 
         #region Sync Methods
 
-        [TestMethod]
+        [Fact(DisplayName = "Builder Given(string, Action) throws if Action is null")]
         public void TestGivenActionIsNull()
         {
             try
@@ -38,7 +37,7 @@
             }
         }
 
-        [TestMethod]
+        [Fact(DisplayName = "Builder Given(string, Action) returns if Action is not null")]
         public void TestGivenActionNotNull()
         {
             var x = 0;
@@ -50,7 +49,7 @@
             specWriter.ToString().Should().Be("GIVEN my label\r\n");
         }
 
-        [TestMethod]
+        [Fact(DisplayName = "Builder When(string, Action) throws if Action is null")]
         public void TestWhenActionIsNull()
         {
             try
@@ -68,7 +67,7 @@
             }
         }
 
-        [TestMethod]
+        [Fact(DisplayName = "Builder When(string, Action) returns if Action is not null")]
         public void TestWhenActionNotNull()
         {
             var x = 0;
@@ -84,7 +83,7 @@
 
         #region Async Methods
 
-        [TestMethod]
+        [Fact(DisplayName = "Builder Given(string, Func<Task>) throws if Func<Task> is null")]
         public void TestGivenFunctionIsNull()
         {
             try
@@ -102,7 +101,7 @@
             }
         }
 
-        [TestMethod]
+        [Fact(DisplayName = "Builder Given(string, Func<Task>) returns if Func<Task> is not null")]
         public void TestGivenFunctionNotNull()
         {
             var x = 0;
@@ -119,7 +118,7 @@
             specWriter.ToString().Should().Be("GIVEN my label\r\n");
         }
 
-        [TestMethod]
+        [Fact(DisplayName = "Builder When(string, Func<Task>) throws if Func<Task> is null")]
         public void TestWhenFunctionIsNull()
         {
             try
@@ -137,7 +136,7 @@
             }
         }
 
-        [TestMethod]
+        [Fact(DisplayName = "Builder When(string, Func<Task>) returns if Func<Task> is not null")]
         public void TestWhenFunctionNotNull()
         {
             var x = 0;

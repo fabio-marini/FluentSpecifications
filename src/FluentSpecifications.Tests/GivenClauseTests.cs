@@ -1,12 +1,11 @@
 ﻿namespace FluentSpecifications.Tests
 {
     using FluentAssertions;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using System.IO;
     using System.Threading.Tasks;
+    using Xunit;
 
-    [TestClass]
     public class GivenClauseTests
     {
         private readonly IGivenClause givenClause;
@@ -20,8 +19,8 @@
 
         #region Sync Methods
 
-        [TestMethod]
-        public void TestGivenActionIsNull()
+        [Fact(DisplayName = "'GIVEN' And(string, Action) throws if Action is null")]
+        public void TestAndActionIsNull()
         {
             try
             {
@@ -38,8 +37,8 @@
             }
         }
 
-        [TestMethod]
-        public void TestGivenActionNotNull()
+        [Fact(DisplayName = "'GIVEN' And(string, Action) returns if Action is not null")]
+        public void TestAndActionNotNull()
         {
             var x = 0;
 
@@ -50,7 +49,7 @@
             specWriter.ToString().Should().Be("  AND my label\r\n");
         }
 
-        [TestMethod]
+        [Fact(DisplayName = "'GIVEN' When(string, Action) throws if Action is null")]
         public void TestWhenActionIsNull()
         {
             try
@@ -68,7 +67,7 @@
             }
         }
 
-        [TestMethod]
+        [Fact(DisplayName = "'GIVEN' When(string, Action) returns if Action is not null")]
         public void TestWhenActionNotNull()
         {
             var x = 0;
@@ -80,7 +79,7 @@
             specWriter.ToString().Should().Be(" WHEN my label\r\n");
         }
 
-        [TestMethod]
+        [Fact(DisplayName = "'GIVEN' Then(string, Action) throws if Action is null")]
         public void TestThenActionIsNull()
         {
             try
@@ -98,7 +97,7 @@
             }
         }
 
-        [TestMethod]
+        [Fact(DisplayName = "'GIVEN' Then(string, Action) returns if Action is not null")]
         public void TestThenActionNotNull()
         {
             var x = 0;
@@ -114,8 +113,8 @@
 
         #region Async Methods
 
-        [TestMethod]
-        public void TestGivenFunctionIsNull()
+        [Fact(DisplayName = "'GIVEN' And(string, Func<Task>) throws if Func<Task> is null")]
+        public void TestAndFunctionIsNull()
         {
             try
             {
@@ -132,8 +131,8 @@
             }
         }
 
-        [TestMethod]
-        public void TestGivenFunctionNotNull()
+        [Fact(DisplayName = "'GIVEN' And(string, Func<Task>) returns if Func<Task> is not null")]
+        public void TestAndFunctionNotNull()
         {
             var x = 0;
 
@@ -150,7 +149,7 @@
             specWriter.ToString().Should().Be("  AND my label\r\n");
         }
 
-        [TestMethod]
+        [Fact(DisplayName = "'GIVEN' When(string, Func<Task>) throws if Func<Task> is null")]
         public void TestWhenFunctionIsNull()
         {
             try
@@ -168,7 +167,7 @@
             }
         }
 
-        [TestMethod]
+        [Fact(DisplayName = "'GIVEN' When(string, Func<Task>) returns if Func<Task> is not null")]
         public void TestWhenFunctionNotNull()
         {
             var x = 0;
@@ -185,7 +184,7 @@
             specWriter.ToString().Should().Be(" WHEN my label\r\n");
         }
 
-        [TestMethod]
+        [Fact(DisplayName = "'GIVEN' Then(string, Func<Task>) throws if Func<Task> is null")]
         public void TestThenFunctionIsNull()
         {
             try
@@ -203,7 +202,7 @@
             }
         }
 
-        [TestMethod]
+        [Fact(DisplayName = "'GIVEN' Then(string, Func<Task>) returns if Func<Task> is not null")]
         public void TestThenFunctionNotNull()
         {
             var x = 0;

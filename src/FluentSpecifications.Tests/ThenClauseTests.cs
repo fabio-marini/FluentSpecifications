@@ -1,12 +1,11 @@
 ﻿namespace FluentSpecifications.Tests
 {
     using FluentAssertions;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using System.IO;
     using System.Threading.Tasks;
+    using Xunit;
 
-    [TestClass]
     public class ThenClauseTests
     {
         private readonly IThenClause thenClause;
@@ -18,11 +17,10 @@
             thenClause = new ThenClause(specWriter);
         }
 
-
         #region Sync Methods
 
-        [TestMethod]
-        public void TestThenActionIsNull()
+        [Fact(DisplayName = "'THEN' And(string, Action) throws if Action is null")]
+        public void TestAndActionIsNull()
         {
             try
             {
@@ -39,8 +37,8 @@
             }
         }
 
-        [TestMethod]
-        public void TestThenActionNotNull()
+        [Fact(DisplayName = "'THEN' And(string, Action) returns if Action is not null")]
+        public void TestAndActionNotNull()
         {
             var x = 0;
 
@@ -55,8 +53,8 @@
 
         #region Async Methods
 
-        [TestMethod]
-        public void TestThenFunctionIsNull()
+        [Fact(DisplayName = "'THEN' And(string, Func<Task>) throws if Func<Task> is null")]
+        public void TestAndFunctionIsNull()
         {
             try
             {
@@ -73,8 +71,8 @@
             }
         }
 
-        [TestMethod]
-        public void TestThenFunctionNotNull()
+        [Fact(DisplayName = "'THEN' And(string, Func<Task>) returns if Func<Task> is not null")]
+        public void TestAndFunctionNotNull()
         {
             var x = 0;
 

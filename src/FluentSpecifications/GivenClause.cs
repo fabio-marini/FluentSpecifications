@@ -12,7 +12,7 @@
         private readonly TextWriter specWriter;
 
         /// <summary>
-        /// Creates an instance of the fluent specification builder
+        /// Creates an instance of the 'GIVEN' clause
         /// </summary>
         /// <param name="specWriter">The <see cref="TextWriter"/> to write the output to</param>
         public GivenClause(TextWriter specWriter)
@@ -53,7 +53,9 @@
                 throw new ArgumentNullException(nameof(givenFunc), "Cannot invoke a null function");
             }
 
-            givenFunc().ContinueWith(t => specWriter.WriteLine($"  AND {label}"), TaskContinuationOptions.ExecuteSynchronously).ConfigureAwait(false);
+            givenFunc().GetAwaiter().GetResult();
+
+            specWriter.WriteLine($"  AND {label}");
 
             return new GivenClause(specWriter);
         }
@@ -91,7 +93,9 @@
                 throw new ArgumentNullException(nameof(thenFunc), "Cannot invoke a null function");
             }
 
-            thenFunc().ContinueWith(t => specWriter.WriteLine($" THEN {label}"), TaskContinuationOptions.ExecuteSynchronously).ConfigureAwait(false);
+            thenFunc().GetAwaiter().GetResult();
+
+            specWriter.WriteLine($" THEN {label}");
 
             return new ThenClause(specWriter);
         }
@@ -129,7 +133,9 @@
                 throw new ArgumentNullException(nameof(whenFunc), "Cannot invoke a null function");
             }
 
-            whenFunc().ContinueWith(t => specWriter.WriteLine($" WHEN {label}"), TaskContinuationOptions.ExecuteSynchronously).ConfigureAwait(false);
+            whenFunc().GetAwaiter().GetResult();
+
+            specWriter.WriteLine($" WHEN {label}");
 
             return new WhenClause(specWriter);
         }

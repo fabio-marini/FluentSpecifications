@@ -202,7 +202,7 @@
         </member>
         <member name="M:FluentSpecifications.GivenClause.#ctor(System.IO.TextWriter)">
             <summary>
-            Creates an instance of the fluent specification builder
+            Creates an instance of the 'GIVEN' clause
             </summary>
             <param name="specWriter">The <see cref="T:System.IO.TextWriter"/> to write the output to</param>
         </member>
@@ -261,7 +261,7 @@
         </member>
         <member name="M:FluentSpecifications.ThenClause.#ctor(System.IO.TextWriter)">
             <summary>
-            Creates an instance of the fluent specification builder
+            Creates an instance of the 'THEN' clause
             </summary>
             <param name="specWriter">The <see cref="T:System.IO.TextWriter"/> to write the output to</param>
         </member>
@@ -288,7 +288,7 @@
         </member>
         <member name="M:FluentSpecifications.WhenClause.#ctor(System.IO.TextWriter)">
             <summary>
-            Creates an instance of the fluent specification builder
+            Creates an instance of the 'WHEN' clause
             </summary>
             <param name="specWriter">The <see cref="T:System.IO.TextWriter"/> to write the output to</param>
         </member>
