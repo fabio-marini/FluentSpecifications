@@ -5,6 +5,8 @@ Access the API using the `FluentSpecBuilder` class and use the `Given`, `When` a
 
 Each method accepts a free-text label description and an `Action` delegate, which represents the code that will be executed.
 
+Each method has a corresponding overload that accepts a free-text label description and a `Func<Task>` delegate. These are used when the delegates are called asynchronously.
+
 You can download the NuGet package from [NuGet.org](https://www.nuget.org/packages/FluentSpecifications/)
 
 ## Example
